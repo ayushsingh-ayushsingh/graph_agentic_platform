@@ -24,7 +24,7 @@ import {
   oneLight,
   oneDark,
 } from "react-syntax-highlighter/dist/esm/styles/prism"
-import { useTheme } from "next-themes" // or however you detect dark mode
+import { useTheme } from "next-themes"
 import type { Components } from "react-markdown"
 import type { FormEvent } from "react"
 import { useState } from "react"
@@ -33,14 +33,11 @@ import { Field, FieldError, FieldLabel } from "@/components/ui/field"
 import { Form } from "@/components/ui/form"
 import { Copy, Edit } from "lucide-react"
 
-// ── lowlight: register all common languages ───────────────────
 const lowlight = createLowlight(common)
 
-// ── Tiptap extensions ─────────────────────────────────────────
 const extensions = [
   TextStyleKit,
   StarterKit.configure({
-    // Disable built-in codeBlock — CodeBlockLowlight replaces it
     codeBlock: false,
     bulletList: { keepMarks: true, keepAttributes: false },
     orderedList: { keepMarks: true, keepAttributes: false },
@@ -48,7 +45,6 @@ const extensions = [
   CodeBlockLowlight.configure({
     lowlight,
     defaultLanguage: "plaintext",
-    // Adds data-language attribute (used by our CSS ::before label)
     HTMLAttributes: { spellcheck: "false" },
   }),
   Placeholder.configure({ placeholder: "Write something…" }),
@@ -67,24 +63,20 @@ const extensions = [
   TaskItem.configure({ nested: true }),
 ]
 
-// ── Typed helper to read tiptap-markdown storage ──────────────
-// Storage is intentionally untyped by Tiptap — cast to access it safely
 function getMarkdownContent(editor: ReturnType<typeof useEditor>): string {
   if (!editor) return ""
   const storage = editor.storage as unknown as Record<
     string,
     | {
-        getMarkdown?: () => string
-      }
+      getMarkdown?: () => string
+    }
     | undefined
   >
   return storage.markdown?.getMarkdown?.() ?? editor.getText()
 }
 
-// ── ReactMarkdown custom code block with syntax highlighting ──
 function MarkdownCodeBlock({ isDark }: { isDark: boolean }) {
   const CodeBlock: Components["code"] = ({ className, children, ...rest }) => {
-    // Fenced code blocks have className like "language-typescript"
     const match = /language-(\w+)/.exec(className ?? "")
     const language = match?.[1] ?? "text"
     const isInline = !match
@@ -126,7 +118,6 @@ function MarkdownCodeBlock({ isDark }: { isDark: boolean }) {
   return CodeBlock
 }
 
-// ── Types ─────────────────────────────────────────────────────
 interface Message {
   id: number
   content: string
@@ -168,12 +159,10 @@ async function benchmark(model: Model, dataset: Sample[]): Promise<number> {
   },
 ]
 
-// ── Component ─────────────────────────────────────────────────
 export default function App() {
   const [loading, setLoading] = useState(false)
   const [messages, setMessages] = useState<Message[]>(seedMessages)
 
-  // Detect dark mode — swap to your own approach if not using next-themes
   const { resolvedTheme } = useTheme()
   const isDark = resolvedTheme === "dark"
 
@@ -207,7 +196,6 @@ export default function App() {
 
   return (
     <div className="relative mx-auto flex h-screen max-w-4xl flex-col px-2">
-      {/* ── Messages ── */}
       <div className="flex flex-1 flex-col gap-4 overflow-y-auto py-4 pb-48">
         {messages.map((msg) => (
           <div key={msg.id} className="group relative border">
@@ -237,8 +225,7 @@ export default function App() {
         ))}
       </div>
 
-      {/* ── Input ── */}
-      <div className="absolute bottom-0 left-0 w-full px-2 pb-2">
+      <div className="absolute bottom-0 left-0 w-full px-2">
         <Form className="relative flex max-w-full" onSubmit={onSubmit}>
           <Field className="w-full flex-1">
             <FieldLabel className="sr-only">Prompt</FieldLabel>

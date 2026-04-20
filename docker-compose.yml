@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+  python-sandbox:
+    build: .
+    container_name: python_sandbox
+    volumes:
+      - ./agents/sandbox:/sandbox
+    working_dir: /sandbox
+    stdin_open: true
+    tty: true
+    mem_limit: 256m
+    pids_limit: 64
+    network_mode: "none"
+
+volumes:
+  open-webui:

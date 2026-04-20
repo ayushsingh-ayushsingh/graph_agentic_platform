@@ -1,0 +1,25 @@
+[project]
+name = "hack-agent-platform"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "browser-use>=0.11.13",
+    "browserbase>=1.7.0",
+    "google-adk>=1.28.1",
+    "jupyter-client>=8.8.0",
+    "keyboard>=0.13.5",
+    "litellm>=1.83.2",
+    "matplotlib>=3.10.8",
+    "numpy>=2.4.4",
+    "pillow>=12.2.0",
+    "playwright>=1.58.0",
+    "pyautogui>=0.9.54",
+    "pynput>=1.8.1",
+    "rich>=14.3.3",
+    "seaborn>=0.13.2",
+    "sounddevice>=0.5.5",
+    "termcolor>=3.3.0",
+    "websockets>=15.0.1",
+]

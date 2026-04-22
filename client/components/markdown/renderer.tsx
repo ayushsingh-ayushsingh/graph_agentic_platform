@@ -1,3 +1,5 @@
+import "../../app/styles.scss"
+
 import { Children, isValidElement, type ReactNode } from "react"
 import ReactMarkdown, { type Components } from "react-markdown"
 import remarkGfm from "remark-gfm"
@@ -13,7 +15,7 @@ export const markdownBodyClass = cn(
   "prose-p:leading-7 prose-li:leading-7",
   "prose-pre:my-0 prose-pre:border prose-pre:bg-muted/40",
   "prose-code:rounded-md prose-code:px-1.5 prose-code:py-0.5 prose-code:font-mono prose-code:text-[0.9em]",
-  "prose-img:rounded-xl prose-img:border",
+  "prose-img:rounded-xl",
   "prose-a:text-primary prose-a:no-underline hover:prose-a:underline"
 )
 
@@ -68,6 +70,46 @@ export const MarkdownPre: Components["pre"] = ({ children, ...props }) => {
   )
 }
 
+const MarkdownImage: Components["img"] = ({
+  src,
+  alt,
+  width,
+  height,
+  className,
+  ...props
+}) => {
+  if (!src) return null
+
+  const resolvedSrc = typeof src === "string" ? src : src.toString()
+
+  const resolvedWidth =
+    typeof width === "number"
+      ? width
+      : typeof width === "string" && width.trim() !== ""
+        ? Number(width)
+        : 1200
+
+  const resolvedHeight =
+    typeof height === "number"
+      ? height
+      : typeof height === "string" && height.trim() !== ""
+        ? Number(height)
+        : 800
+
+  return (
+    <span className="my-4 overflow-hidden w-full flex items-center justify-center rounded-xl max-w-xl mx-auto">
+      <img
+        src={resolvedSrc}
+        alt={alt ?? "Image"}
+        width={Number.isFinite(resolvedWidth) ? resolvedWidth : 1200}
+        height={Number.isFinite(resolvedHeight) ? resolvedHeight : 800}
+        className={cn("h-auto mx-auto object-contain", className)}
+        {...props}
+      />
+    </span>
+  )
+}
+
 export function MarkdownRenderer({ content }: { content: string }) {
   return (
     <div className={cn("markdown-body p-3", markdownBodyClass)}>
@@ -79,6 +121,7 @@ export function MarkdownRenderer({ content }: { content: string }) {
         ]}
         components={{
           pre: MarkdownPre,
+          img: MarkdownImage,
         }}
       >
         {content}

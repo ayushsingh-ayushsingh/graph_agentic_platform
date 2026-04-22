@@ -37,8 +37,8 @@ export default async function BlogPostPage({
                 <div className="min-w-0 flex-1">
                   <h1
                     className={cn(
-                      "my-2 text-4xl font-semibold tracking-tight",
-                      "sm:text-5xl"
+                      "my-2 text-4xl tracking-tight",
+                      "sm:text-5xl text-base/2"
                     )}
                   >
                     {POST.title} — {slug}

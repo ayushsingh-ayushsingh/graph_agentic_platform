@@ -1,4 +1,7 @@
 import "../../app/styles.scss"
+import "highlight.js/styles/atom-one-dark.css"
+import "highlight.js/styles/nord.css"
+import "highlight.js/styles/tokyo-night-dark.css"
 
 import { Children, isValidElement, type ReactNode } from "react"
 import ReactMarkdown, { type Components } from "react-markdown"
@@ -51,8 +54,8 @@ export const MarkdownPre: Components["pre"] = ({ children, ...props }) => {
       <pre
         data-language={lang}
         className={cn(
-          "overflow-x-auto rounded-xl border bg-muted/40 p-4 text-sm leading-6 shadow-sm",
-          "[&>code]:bg-transparent [&>code]:p-0 [&>code]:text-inherit"
+          "overflow-x-auto rounded-xl border bg-muted/40 p-0! text-sm leading-6 shadow-sm",
+          "[&>code]:bg-transparent [&>code]:p-0 [&>code]:text-inherit [&>code]:max-h-[70vh]"
         )}
         {...props}
       >

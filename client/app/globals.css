@@ -34,6 +34,10 @@
   display: none;
 }
 
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
 ::selection {
   background-color: --alpha(var(--foreground) / 20%) !important;
 }

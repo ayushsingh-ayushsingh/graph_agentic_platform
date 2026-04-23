@@ -13,7 +13,7 @@ import { CopyButton } from "@/components/markdown/copy-button"
 import { cn } from "@/lib/utils"
 
 export const markdownBodyClass = cn(
-  "prose prose-neutral dark:prose-invert max-w-none",
+  "prose max-w-none prose-neutral dark:prose-invert",
   "prose-headings:scroll-m-20 prose-headings:font-semibold",
   "prose-p:leading-7 prose-li:leading-7",
   "prose-pre:my-0 prose-pre:border prose-pre:bg-muted/40",
@@ -55,7 +55,7 @@ export const MarkdownPre: Components["pre"] = ({ children, ...props }) => {
         data-language={lang}
         className={cn(
           "overflow-x-auto rounded-xl border bg-muted/40 p-0! text-sm leading-6 shadow-sm",
-          "[&>code]:bg-transparent [&>code]:p-0 [&>code]:text-inherit [&>code]:max-h-[70vh]"
+          "[&>code]:max-h-[70vh] [&>code]:bg-transparent [&>code]:p-0 [&>code]:text-inherit"
         )}
         {...props}
       >
@@ -100,15 +100,17 @@ const MarkdownImage: Components["img"] = ({
         : 800
 
   return (
-    <span className="my-4 overflow-hidden w-full flex items-center justify-center rounded-xl max-w-xl mx-auto">
-      <img
-        src={resolvedSrc}
-        alt={alt ?? "Image"}
-        width={Number.isFinite(resolvedWidth) ? resolvedWidth : 1200}
-        height={Number.isFinite(resolvedHeight) ? resolvedHeight : 800}
-        className={cn("h-auto mx-auto object-contain", className)}
-        {...props}
-      />
+    <span className="mx-auto my-4 flex w-full max-w-xl items-center justify-center overflow-hidden rounded-xl">
+      <picture>
+        <img
+          src={resolvedSrc}
+          alt={alt ?? "Image"}
+          width={Number.isFinite(resolvedWidth) ? resolvedWidth : 1200}
+          height={Number.isFinite(resolvedHeight) ? resolvedHeight : 800}
+          className={cn("mx-auto h-auto object-contain", className)}
+          {...props}
+        />
+      </picture>
     </span>
   )
 }

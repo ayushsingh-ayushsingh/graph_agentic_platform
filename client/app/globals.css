@@ -4,6 +4,15 @@
 
 @custom-variant dark (&:is(.dark *));
 
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -108,78 +117,81 @@ pre {
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
   @keyframes skeleton {
-  to {
-    background-position: -200% 0;
+    to {
+      background-position: -200% 0;
     }
   }
   @keyframes caret-blink {
-  0%, 70%, to {
-    opacity: 1;
+    0%,
+    70%,
+    to {
+      opacity: 1;
     }
-  20%, 50% {
-    opacity: 0;
+    20%,
+    50% {
+      opacity: 0;
     }
   }
   @keyframes toast-success-odd {
-  0% {
-    scale: 1;
+    0% {
+      scale: 1;
     }
-  30% {
-    scale: 1.025;
+    30% {
+      scale: 1.025;
     }
-  60% {
-    scale: 0.99;
+    60% {
+      scale: 0.99;
     }
-  100% {
-    scale: 1;
+    100% {
+      scale: 1;
     }
   }
   @keyframes toast-error-odd {
-  0% {
-    translate: 0 0;
+    0% {
+      translate: 0 0;
     }
-  25% {
-    translate: -3px 0;
+    25% {
+      translate: -3px 0;
     }
-  50% {
-    translate: 3px 0;
+    50% {
+      translate: 3px 0;
     }
-  75% {
-    translate: -3px 0;
+    75% {
+      translate: -3px 0;
     }
-  100% {
-    translate: 0 0;
+    100% {
+      translate: 0 0;
     }
   }
   @keyframes toast-success-even {
-  0% {
-    scale: 1;
+    0% {
+      scale: 1;
     }
-  30% {
-    scale: 1.025;
+    30% {
+      scale: 1.025;
     }
-  60% {
-    scale: 0.99;
+    60% {
+      scale: 0.99;
     }
-  100% {
-    scale: 1;
+    100% {
+      scale: 1;
     }
   }
   @keyframes toast-error-even {
-  0% {
-    translate: 0 0;
+    0% {
+      translate: 0 0;
     }
-  25% {
-    translate: -3px 0;
+    25% {
+      translate: -3px 0;
     }
-  50% {
-    translate: 3px 0;
+    50% {
+      translate: 3px 0;
     }
-  75% {
-    translate: -3px 0;
+    75% {
+      translate: -3px 0;
     }
-  100% {
-    translate: 0 0;
+    100% {
+      translate: 0 0;
     }
   }
 }

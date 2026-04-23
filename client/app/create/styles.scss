@@ -1,3 +1,12 @@
+.ProseMirror {
+  outline: none;
+  min-height: 100% !important;
+  padding: 0.75rem;
+  border-radius: 0rem;
+  background-color: var(--background);
+  font-size: 0.875rem;
+}
+
 @mixin hljs-tokens {
   .hljs-comment,
   .hljs-quote          { color: var(--muted-foreground); font-style: italic; }
@@ -139,7 +148,7 @@
     padding-left: 0.5rem;
     li {
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       gap: 0.5rem;
       label { cursor: pointer; }
       input[type="checkbox"] {
@@ -250,7 +259,7 @@
     padding-left: 0.25rem;
     li.task-list-item {
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       gap: 0.5rem;
       input[type="checkbox"] {
         margin-top: 0.25em;

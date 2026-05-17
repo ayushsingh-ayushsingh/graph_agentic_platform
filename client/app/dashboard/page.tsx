@@ -132,11 +132,11 @@ export default async function DashboardPage({
             {/* ─── Page header ──────────────────────────────────── */}
             <div className="flex items-center justify-between gap-3 border bg-card p-3 shadow-sm">
               <div className="flex items-center gap-2">
-                <LayoutDashboard className="h-4 w-4 text-muted-foreground" />
                 <h1 className="text-2xl font-semibold tracking-tight">
                   Dashboard
                 </h1>
               </div>
+              <div className="flex-1"></div>
               <div className="flex items-center gap-2">
                 <Button
                   variant="outline"
@@ -144,7 +144,7 @@ export default async function DashboardPage({
                   className="h-8 rounded-none px-3 text-xs"
                   render={<Link href="/read" />}
                 >
-                  All posts
+                  Posts
                 </Button>
                 <Button
                   variant="secondary"
@@ -152,8 +152,7 @@ export default async function DashboardPage({
                   className="h-8 rounded-none px-3 text-xs"
                   render={<Link href="/create" />}
                 >
-                  <PenSquare className="mr-1.5 h-3.5 w-3.5" />
-                  New post
+                  New
                 </Button>
               </div>
             </div>
@@ -171,7 +170,7 @@ export default async function DashboardPage({
               <div className="flex items-center justify-between border-b p-3">
                 <span className="text-sm font-semibold">
                   Your Posts{" "}
-                  <span className="text-muted-foreground font-normal">
+                  <span className="font-normal text-muted-foreground">
                     ({total})
                   </span>
                 </span>
@@ -207,7 +206,9 @@ export default async function DashboardPage({
                   ) : (
                     posts.map((p) => {
                       const vis =
-                        VISIBILITY_META[p.visibility as keyof typeof VISIBILITY_META]
+                        VISIBILITY_META[
+                          p.visibility as keyof typeof VISIBILITY_META
+                        ]
                       const tags = JSON.parse(p.tags || "[]") as string[]
                       const commentCount = commentCountMap[p.id] ?? 0
 
@@ -326,7 +327,9 @@ export default async function DashboardPage({
                     )}
                     <PaginationItem>
                       <PaginationNext
-                        href={page < totalPages ? buildHref(page + 1) : undefined}
+                        href={
+                          page < totalPages ? buildHref(page + 1) : undefined
+                        }
                         render={
                           page >= totalPages ? (
                             <span

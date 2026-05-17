@@ -50,7 +50,7 @@ const VISIBILITY_META = {
   private: {
     label: "Private",
     icon: <Lock className="h-3 w-3" />,
-    variant: "secondary" as const,
+    variant: "error" as const,
   },
 }
 
@@ -114,7 +114,7 @@ export default async function ReadPage({
             </div>
 
             {/* ─── Search bar (stub — Postgres FTS not implemented yet) ─ */}
-            <div className="flex items-center gap-2 border bg-card p-3 shadow-sm">
+            <div className="flex items-center gap-2 border bg-card shadow-sm">
               <div className="relative flex-1">
                 <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <Input
@@ -167,7 +167,7 @@ export default async function ReadPage({
                               href={`/read/${post.slug}`}
                               className={cn(
                                 "line-clamp-2 underline-offset-2 hover:underline",
-                                "text-foreground"
+                                "max-w-80 truncate text-foreground"
                               )}
                             >
                               {post.title}
@@ -176,15 +176,20 @@ export default async function ReadPage({
 
                           {/* Author */}
                           <TableCell className="text-muted-foreground">
-                            <span className="line-clamp-1">
+                            <span className="line-clamp-1 max-w-20 truncate">
                               {post.authorName}
                             </span>
                           </TableCell>
 
                           {/* Tags */}
                           <TableCell>
-                            <div className="flex w-full max-w-36 gap-1 overflow-y-auto scrollbar-hide">
-                              {post.tags.slice(0, 3).map((tag) => (
+                            <div className="scrollbar-hide flex w-full max-w-36 gap-1 overflow-y-auto">
+                              {post.tags.length == 0 && (
+                                <div className="text-muted-foreground italic">
+                                  None
+                                </div>
+                              )}
+                              {post.tags.slice(0, 1).map((tag) => (
                                 <Badge
                                   key={tag}
                                   variant="outline"
@@ -194,12 +199,13 @@ export default async function ReadPage({
                                   {tag}
                                 </Badge>
                               ))}
-                              {post.tags.length > 3 && (
+                              {post.tags.length > 1 && (
                                 <Badge
                                   variant="outline"
-                                  className="rounded-none text-xs"
+                                  size={"lg"}
+                                  className="rounded-none text-xs text-muted-foreground"
                                 >
-                                  +{post.tags.length - 3}
+                                  +{post.tags.length - 1}
                                 </Badge>
                               )}
                             </div>

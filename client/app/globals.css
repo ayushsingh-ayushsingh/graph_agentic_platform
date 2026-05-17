@@ -48,7 +48,8 @@
 }
 
 ::selection {
-  background-color: --alpha(var(--foreground) / 20%) !important;
+  background-color: --alpha(var(--color-blue-500) / 80%) !important;
+  color: var(--foreground) !important;
 }
 
 pre {

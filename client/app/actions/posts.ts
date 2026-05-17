@@ -11,13 +11,15 @@ import { auth } from "@/lib/auth"
 // ---------------------------------------------------------------------------
 
 function slugify(text: string): string {
-  return text
-    .toLowerCase()
-    .replace(/[^\w\s-]/g, "")
-    .replace(/\s+/g, "-")
-    .replace(/-+/g, "-")
-    .replace(/^-|-$/g, "")
-    .slice(0, 80) || "untitled"
+  return (
+    text
+      .toLowerCase()
+      .replace(/[^\w\s-]/g, "")
+      .replace(/\s+/g, "-")
+      .replace(/-+/g, "-")
+      .replace(/^-|-$/g, "")
+      .slice(0, 80) || "untitled"
+  )
 }
 
 async function getSession() {
@@ -73,7 +75,10 @@ export interface ListPostsResult {
 
 export async function createOrUpdatePost(
   input: CreatePostInput
-): Promise<{ success: true; postId: string; slug: string } | { success: false; error: string }> {
+): Promise<
+  | { success: true; postId: string; slug: string }
+  | { success: false; error: string }
+> {
   try {
     const session = await getSession()
     if (!session?.user) return { success: false, error: "Not authenticated" }
@@ -206,7 +211,10 @@ export async function deletePost(
 
 export async function getPost(
   slug: string
-): Promise<{ success: true; post: PostDetail } | { success: false; error: string; status?: number }> {
+): Promise<
+  | { success: true; post: PostDetail }
+  | { success: false; error: string; status?: number }
+> {
   try {
     const session = await getSession()
 
@@ -256,7 +264,6 @@ export async function getPost(
 // Returns public + unlisted posts (private excluded unless you are the author).
 // page is 1-indexed.
 // ---------------------------------------------------------------------------
-
 export async function listPosts(
   page = 1,
   pageSize = 10
@@ -266,15 +273,11 @@ export async function listPosts(
 
   const offset = (page - 1) * pageSize
 
-  // Build visibility filter:
-  // - Always show public + unlisted
-  // - If authenticated, also show this user's private posts
+  // Public posts from everyone
+  // + all posts from current user
   const visibilityFilter = authorId
-    ? or(
-        ne(post.visibility, "private"),
-        and(eq(post.visibility, "private"), eq(post.authorId, authorId))
-      )
-    : ne(post.visibility, "private")
+    ? or(eq(post.visibility, "public"), eq(post.authorId, authorId))
+    : eq(post.visibility, "public")
 
   const [totalRow] = await db
     .select({ total: count() })
@@ -319,10 +322,11 @@ export async function listPosts(
 // ---------------------------------------------------------------------------
 // getPostById — used by the create page to re-load a draft by id
 // ---------------------------------------------------------------------------
-
 export async function getPostById(
   postId: string
-): Promise<{ success: true; post: PostDetail } | { success: false; error: string }> {
+): Promise<
+  { success: true; post: PostDetail } | { success: false; error: string }
+> {
   try {
     const session = await getSession()
     if (!session?.user) return { success: false, error: "Not authenticated" }

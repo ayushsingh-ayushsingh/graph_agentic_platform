@@ -20,9 +20,7 @@ export default function AuthPage() {
             <Link href="/" aria-label="go home">
               <LogoIcon />
             </Link>
-            <h1 className="mt-4 mb-1 text-xl font-semibold">
-              Sign in
-            </h1>
+            <h1 className="mt-4 mb-1 text-xl font-semibold">Sign in</h1>
             <p className="text-sm text-muted-foreground">
               Continue with your Google or GitHub account
             </p>
@@ -34,7 +32,7 @@ export default function AuthPage() {
               type="button"
               variant="outline"
               size="xl"
-              className="w-full rounded-none"
+              className="flex w-full gap-4 rounded-none"
               onClick={() => signInWithGoogle(callbackURL)}
             >
               <svg
@@ -60,7 +58,7 @@ export default function AuthPage() {
                   d="M130.55 50.479c24.514 0 41.05 10.589 50.479 19.438l36.844-35.974C195.245 12.91 165.798 0 130.55 0C79.49 0 35.393 29.301 13.925 71.947l42.211 32.783c10.59-31.477 39.891-54.251 74.414-54.251"
                 />
               </svg>
-              <span>Continue with Google</span>
+              <span>Login with Google</span>
             </Button>
 
             {/* GitHub */}
@@ -68,7 +66,7 @@ export default function AuthPage() {
               type="button"
               variant="outline"
               size="xl"
-              className="w-full rounded-none"
+              className="flex w-full gap-4 rounded-none"
               onClick={() => signInWithGithub(callbackURL)}
             >
               <svg
@@ -83,28 +81,20 @@ export default function AuthPage() {
                   d="M12.026 2c-5.509 0-9.974 4.465-9.974 9.974 0 4.406 2.857 8.145 6.821 9.465.499.09.679-.217.679-.481 0-.237-.008-.865-.011-1.696-2.775.602-3.361-1.338-3.361-1.338-.452-1.152-1.107-1.459-1.107-1.459-.905-.619.069-.605.069-.605 1.002.07 1.527 1.028 1.527 1.028.89 1.524 2.336 1.084 2.902.829.091-.645.351-1.085.635-1.334-2.214-.251-4.542-1.107-4.542-4.93 0-1.087.389-1.979 1.024-2.675-.101-.253-.446-1.268.099-2.64 0 0 .837-.269 2.742 1.021a9.582 9.582 0 0 1 2.496-.336 9.554 9.554 0 0 1 2.496.336c1.906-1.291 2.742-1.021 2.742-1.021.545 1.372.203 2.387.099 2.64.64.696 1.024 1.587 1.024 2.675 0 3.833-2.33 4.675-4.552 4.922.355.308.675.916.675 1.846 0 1.334-.012 2.41-.012 2.737 0 .267.178.577.687.479C19.146 20.115 22 16.379 22 11.974 22 6.465 17.535 2 12.026 2z"
                 />
               </svg>
-              <span>Continue with GitHub</span>
+              <span>Login with GitHub</span>
             </Button>
           </div>
 
           <hr className="my-6 border-dashed border-border" />
-
-          <p className="text-center text-sm text-muted-foreground">
-            By signing in, you agree to our{" "}
-            <span className="text-foreground underline underline-offset-2">
-              terms of service
-            </span>
-            .
-          </p>
         </div>
 
         <div className="border-t bg-muted/40 p-3">
           <p className="text-center text-sm text-muted-foreground">
             <Link
               href="/"
-              className="font-medium text-foreground underline underline-offset-2"
+              className="font-medium text-foreground underline decoration-1 underline-offset-4"
             >
-              ← Back to homepage
+              Back to Homepage
             </Link>
           </p>
         </div>

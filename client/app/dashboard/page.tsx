@@ -1,14 +1,7 @@
 import { headers } from "next/headers"
 import { redirect } from "next/navigation"
 import Link from "next/link"
-import {
-  Globe,
-  Lock,
-  Link2,
-  PenSquare,
-  MessageSquare,
-  LayoutDashboard,
-} from "lucide-react"
+import { Globe, Lock, Link2, MessageSquare } from "lucide-react"
 import { eq, desc, count, and, isNull } from "drizzle-orm"
 
 import { auth } from "@/lib/auth"

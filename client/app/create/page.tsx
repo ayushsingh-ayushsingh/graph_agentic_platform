@@ -4,7 +4,7 @@ import "../styles.scss"
 import "./styles.scss"
 import "highlight.js/styles/github-dark.css"
 
-import { useEffect, useMemo, useRef, useState } from "react"
+import { Suspense, useEffect, useMemo, useRef, useState } from "react"
 import type { ChangeEvent, KeyboardEvent } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import debounce from "lodash/debounce"
@@ -266,7 +266,7 @@ const TitleArea = ({
 // Main component
 // ---------------------------------------------------------------------------
 
-export default function CreatePage() {
+export function CreatePage() {
   const router = useRouter()
   const searchParams = useSearchParams()
 
@@ -737,5 +737,19 @@ export default function CreatePage() {
         </main>
       </div>
     </div>
+  )
+}
+
+export default function CreatePageWithSuspense() {
+  return (
+    <Suspense
+      fallback={
+        <div className="h-screen w-full">
+          <Loader2 className="animate-spin" />
+        </div>
+      }
+    >
+      <CreatePage />
+    </Suspense>
   )
 }

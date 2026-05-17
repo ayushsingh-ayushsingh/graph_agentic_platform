@@ -5,8 +5,10 @@ import Link from "next/link"
 import { LogoIcon } from "@/components/logo"
 import { Button } from "@/components/ui/button"
 import { signInWithGithub, signInWithGoogle } from "@/lib/auth-client"
+import { Suspense } from "react"
+import { Loader2 } from "lucide-react"
 
-export default function AuthPage() {
+export function AuthPage() {
   const searchParams = useSearchParams()
   // `from` is the URL-encoded path where the user came from (set by middleware)
   const from = searchParams.get("from")
@@ -100,5 +102,19 @@ export default function AuthPage() {
         </div>
       </div>
     </section>
+  )
+}
+
+export default function AuthPageWithSuspense() {
+  return (
+    <Suspense
+      fallback={
+        <div className="h-screen w-full">
+          <Loader2 className="animate-spin" />
+        </div>
+      }
+    >
+      <AuthPage />
+    </Suspense>
   )
 }

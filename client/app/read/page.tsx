@@ -1,10 +1,10 @@
 import Link from "next/link"
-import { Globe, Lock, Link2, Search, PenSquare } from "lucide-react"
+import { PenSquare } from "lucide-react"
 
 import { listPosts } from "@/app/actions/posts"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
+import { SearchBar } from "@/app/read/search-bar"
 import {
   Table,
   TableHeader,
@@ -36,23 +36,7 @@ function formatDate(iso: string) {
   })
 }
 
-const VISIBILITY_META = {
-  public: {
-    label: "Public",
-    icon: <Globe className="h-3 w-3" />,
-    variant: "success" as const,
-  },
-  unlisted: {
-    label: "Unlisted",
-    icon: <Link2 className="h-3 w-3" />,
-    variant: "warning" as const,
-  },
-  private: {
-    label: "Private",
-    icon: <Lock className="h-3 w-3" />,
-    variant: "error" as const,
-  },
-}
+
 
 // ---------------------------------------------------------------------------
 // Page
@@ -65,8 +49,6 @@ export default async function ReadPage({
 }) {
   const params = await searchParams
   const page = Math.max(1, parseInt(params.page ?? "1", 10))
-  // q is reserved for future postgres FTS — not implemented yet
-  // const query = params.q ?? ""
 
   const result = await listPosts(page, 10)
 
@@ -100,31 +82,20 @@ export default async function ReadPage({
       <div className="mx-auto flex min-h-screen w-full max-w-4xl flex-col px-4 sm:px-6 lg:px-8">
         <main className="flex-1 py-4 sm:py-6">
           <section className="space-y-4">
+            {/* ─── Search bar ────────────────────────────────────── */}
+            <SearchBar />
+
             {/* ─── Header ──────────────────────────────────────────── */}
             <div className="flex items-center justify-between gap-3 border bg-card p-3 shadow-sm">
-              <h1 className="text-2xl font-semibold tracking-tight">Blog</h1>
+              <h1 className="text-2xl font-semibold tracking-tight">Blogs</h1>
               <Button
                 variant="secondary"
                 className="h-9 rounded-none px-3"
                 render={<Link href="/create" />}
               >
                 <PenSquare className="mr-2 h-4 w-4" />
-                New post
+                Craft
               </Button>
-            </div>
-
-            {/* ─── Search bar (stub — Postgres FTS not implemented yet) ─ */}
-            <div className="flex items-center gap-2 border bg-card shadow-sm">
-              <div className="relative flex-1">
-                <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                <Input
-                  id="blog-search"
-                  type="search"
-                  placeholder="Search posts… (full-text search coming soon)"
-                  disabled
-                  className="rounded-none pl-9 text-sm"
-                />
-              </div>
             </div>
 
             {/* ─── Posts table ─────────────────────────────────────── */}
@@ -135,7 +106,6 @@ export default async function ReadPage({
                     <TableHead className="w-[45%]">Title</TableHead>
                     <TableHead>Author</TableHead>
                     <TableHead>Tags</TableHead>
-                    <TableHead>Status</TableHead>
                     <TableHead className="text-right">Published</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -143,7 +113,7 @@ export default async function ReadPage({
                   {result.posts.length === 0 ? (
                     <TableRow>
                       <TableCell
-                        colSpan={5}
+                        colSpan={4}
                         className="py-12 text-center text-muted-foreground"
                       >
                         No posts yet.{" "}
@@ -158,7 +128,6 @@ export default async function ReadPage({
                     </TableRow>
                   ) : (
                     result.posts.map((post) => {
-                      const vis = VISIBILITY_META[post.visibility]
                       return (
                         <TableRow key={post.id}>
                           {/* Title */}
@@ -209,17 +178,6 @@ export default async function ReadPage({
                                 </Badge>
                               )}
                             </div>
-                          </TableCell>
-
-                          {/* Visibility badge */}
-                          <TableCell>
-                            <Badge
-                              variant={vis.variant}
-                              className="inline-flex items-center gap-1 rounded-none"
-                            >
-                              {vis.icon}
-                              {vis.label}
-                            </Badge>
                           </TableCell>
 
                           {/* Date */}

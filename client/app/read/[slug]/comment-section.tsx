@@ -243,9 +243,7 @@ function CommentCard({
       )}
     >
       {/* ── Comment bubble ─────────────────────────────────────────── */}
-      <div
-        className={cn("group  bg-card p-3", isDeleted && "opacity-60")}
-      >
+      <div className={cn("group bg-card p-3", isDeleted && "opacity-60")}>
         {/* Header */}
         <div className="mb-2 flex items-center gap-2 text-xs text-muted-foreground">
           {!isDeleted && (
@@ -311,7 +309,7 @@ function CommentCard({
                 size="sm"
                 onClick={handleDelete}
                 disabled={deleting}
-                className="h-6 rounded-none px-2 text-xs text-muted-foreground hover:text-destructive"
+                className="h-6 rounded-none px-2 text-xs text-muted-foreground hover:border-destructive hover:text-destructive"
               >
                 {deleting ? (
                   <Loader2 className="mr-1 h-3 w-3 animate-spin" />
@@ -340,7 +338,7 @@ function CommentCard({
 
       {/* ── Children ───────────────────────────────────────────────── */}
       {hasReplies && !childrenLoaded && (
-        <div className="mt-1 pl-3">
+        <div className="my-2 pl-3">
           <Button
             type="button"
             variant="ghost"
@@ -460,7 +458,7 @@ export function CommentSection({
       <div className="space-y-4">
         {/* ── New root comment box ────────────────────────────────── */}
         {commentsEnabled && currentUser && (
-          <div className="bg-background p-3 border-b">
+          <div className="border-b bg-background p-3">
             <p className="mb-2 text-xs text-muted-foreground">
               Commenting as{" "}
               <span className="font-medium text-foreground">

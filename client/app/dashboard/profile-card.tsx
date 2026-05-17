@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useTransition } from "react"
+import { useRef, useState, useTransition } from "react"
 import { useRouter } from "next/navigation"
 import {
   Camera,
@@ -46,12 +46,35 @@ interface ProfileCardProps {
 
 export function ProfileCard({ name, email, image }: ProfileCardProps) {
   const router = useRouter()
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const [editing, setEditing] = useState(false)
   const [nameValue, setNameValue] = useState(name)
   const [imageValue, setImageValue] = useState(image ?? "")
   const [error, setError] = useState<string | null>(null)
+  const [fileError, setFileError] = useState<string | null>(null)
   const [pending, startTransition] = useTransition()
   const [signOutPending, startSignOut] = useTransition()
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    if (!file.type.startsWith("image/")) {
+      setFileError("Please select a valid image file (JPG, PNG, or WebP).")
+      return
+    }
+    if (file.size > 1000 * 1024) {
+      setFileError(
+        `The selected image is ${(file.size / 1024).toFixed(0)} KB. Please choose an image under 1000 KB.`
+      )
+      return
+    }
+    const reader = new FileReader()
+    reader.onload = () => {
+      setImageValue(reader.result as string)
+      setError(null)
+    }
+    reader.readAsDataURL(file)
+  }
 
   const handleSave = () => {
     setError(null)
@@ -111,7 +134,7 @@ export function ProfileCard({ name, email, image }: ProfileCardProps) {
                 <AlertDialogTrigger
                   render={
                     <Button
-                      variant="outline"
+                      variant="destructive-outline"
                       size="sm"
                       className="h-7 rounded-none px-2 text-xs hover:border-destructive/50 hover:text-destructive"
                     />
@@ -189,7 +212,7 @@ export function ProfileCard({ name, email, image }: ProfileCardProps) {
           <div className="relative shrink-0 self-center sm:self-start">
             <div
               className={cn(
-                "flex h-20 w-20 items-center justify-center border bg-muted text-muted-foreground",
+                "size-24 flex items-center justify-center border bg-muted text-muted-foreground",
                 "overflow-hidden"
               )}
             >
@@ -206,11 +229,13 @@ export function ProfileCard({ name, email, image }: ProfileCardProps) {
                 </span>
               )}
             </div>
-            {editing && (
-              <div className="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center border bg-background shadow-sm">
-                <Camera className="h-3 w-3 text-muted-foreground" />
-              </div>
-            )}
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleFileChange}
+            />
           </div>
 
           {/* Fields */}
@@ -241,21 +266,21 @@ export function ProfileCard({ name, email, image }: ProfileCardProps) {
               <p className="text-sm text-muted-foreground">{email}</p>
             </div>
 
-            {/* Image URL */}
+            {/* Avatar upload */}
             {editing && (
               <div>
-                <label className="mb-1 block text-xs text-muted-foreground">
-                  Avatar URL
-                </label>
-                <Input
-                  value={imageValue}
-                  onChange={(e) => setImageValue(e.target.value)}
-                  className="rounded-none"
-                  placeholder="https://example.com/avatar.png"
-                  id="profile-image-url"
-                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="h-8 rounded-none flex gap-3 px-3 text-xs w-full"
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  <Camera className="h-3 w-3" />
+                  Upload avatar
+                </Button>
                 <p className="mt-1 text-xs text-muted-foreground">
-                  Paste any public image URL to update your avatar.
+                  JPG, PNG or WebP — max 1000 KB.
                 </p>
               </div>
             )}
@@ -264,6 +289,23 @@ export function ProfileCard({ name, email, image }: ProfileCardProps) {
             {error && (
               <p className="text-xs text-destructive">{error}</p>
             )}
+
+            {/* File error dialog */}
+            <AlertDialog open={!!fileError} onOpenChange={(open) => !open && setFileError(null)}>
+              <AlertDialogPopup>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Upload failed</AlertDialogTitle>
+                  <AlertDialogDescription>{fileError}</AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogClose
+                    render={<Button variant="outline" className="rounded-none" />}
+                  >
+                    OK
+                  </AlertDialogClose>
+                </AlertDialogFooter>
+              </AlertDialogPopup>
+            </AlertDialog>
           </div>
         </div>
       </div>
